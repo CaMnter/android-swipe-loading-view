@@ -30,11 +30,11 @@ public class VerticalSwipeActivity extends AppCompatActivity {
 				Toast.makeText(VerticalSwipeActivity.this, "onSwipeCanceled", Toast.LENGTH_SHORT).show();
 			}
 		});
-		loadingView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				swipeDetectorLayout.hideLoadingView(true, swipeDetectorLayout.getDirection(),null);
-			}
-		});
+//		loadingView.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				swipeDetectorLayout.hideLoadingView(true, swipeDetectorLayout.getDirection(),null);
+//			}
+//		});
 	}
 }

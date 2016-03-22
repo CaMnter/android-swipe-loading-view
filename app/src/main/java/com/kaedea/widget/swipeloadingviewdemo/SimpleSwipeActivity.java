@@ -33,12 +33,12 @@ public class SimpleSwipeActivity extends AppCompatActivity {
                 Toast.makeText(SimpleSwipeActivity.this, "onSwipeCanceled", Toast.LENGTH_SHORT).show();
             }
         });
-        loadingView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                swipeDetectorLayout.hideLoadingView(true, swipeDetectorLayout.getDirection(), null);
-            }
-        });
+//        loadingView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                swipeDetectorLayout.hideLoadingView(true, swipeDetectorLayout.getDirection(), null);
+//            }
+//        });
 
         swipeDetectorLayout.setWorkingMode(SwipeConstants.MODE_BOTTOM);
 

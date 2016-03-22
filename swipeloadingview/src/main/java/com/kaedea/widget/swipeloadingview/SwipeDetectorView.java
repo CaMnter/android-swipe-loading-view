@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.view.animation.LinearInterpolator;
 
 import com.kaedea.widget.swipeloadingview.animation.Animator;
 import com.kaedea.widget.swipeloadingview.animation.ObjectAnimator;
+import com.kaedea.widget.swipeloadingview.animation.proxy.ViewHelper;
 import com.kaedea.widget.swipeloadingview.util.LogUtil;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -91,12 +91,12 @@ public class SwipeDetectorView extends View {
 
             @Override
             public void onTouchOffset(float offsetY, int direction) {
-                float targetTranslationY = ViewCompat.getTranslationY(mLoadingView) + offsetY;
+                float targetTranslationY = ViewHelper.getTranslationY(mLoadingView) + offsetY;
                 if (direction == SwipeConstants.SWIPE_TO_UP) {
-                    mSwipeRatio = 1f - ViewCompat.getTranslationY(mLoadingView) / getTotalHeight();
+                    mSwipeRatio = 1f - ViewHelper.getTranslationY(mLoadingView) / getTotalHeight();
                     LogUtil.d(TAG, "[onTouchOffset] direction =" + direction);
                     LogUtil.d(TAG, "[onTouchOffset] mSwipeRatio =" + mSwipeRatio);
-                    LogUtil.d(TAG, "[onTouchOffset] offsetY =" + offsetY + " mLoadingView.getTranslationY() = " + ViewCompat.getTranslationY(mLoadingView) + " targetTranslationY=" + targetTranslationY);
+                    LogUtil.d(TAG, "[onTouchOffset] offsetY =" + offsetY + " mLoadingView.getTranslationY() = " + ViewHelper.getTranslationY(mLoadingView) + " targetTranslationY=" + targetTranslationY);
                     if (offsetY < 0f && targetTranslationY < 0f) {
                         // can not continue swipe up
                         LogUtil.i(TAG, "[onTouchOffset] can not continue swipe up!");
@@ -105,10 +105,10 @@ public class SwipeDetectorView extends View {
                     }
                 } else {
                     // swipe up to down
-                    mSwipeRatio = ViewCompat.getTranslationY(mLoadingView) / getTotalHeight() + 1;
+                    mSwipeRatio = ViewHelper.getTranslationY(mLoadingView) / getTotalHeight() + 1;
                     LogUtil.d(TAG, "[onTouchOffset] direction =" + direction);
                     LogUtil.d(TAG, "[onTouchOffset] mSwipeRatio =" + mSwipeRatio);
-                    LogUtil.d(TAG, "[onTouchOffset] offsetY =" + offsetY + " mLoadingView.getTranslationY() = " + ViewCompat.getTranslationY(mLoadingView) + " targetTranslationY=" + targetTranslationY);
+                    LogUtil.d(TAG, "[onTouchOffset] offsetY =" + offsetY + " mLoadingView.getTranslationY() = " + ViewHelper.getTranslationY(mLoadingView) + " targetTranslationY=" + targetTranslationY);
                     if (offsetY > 0f && targetTranslationY > getTotalHeight()) {
                         // can not continue swipe down
                         LogUtil.i(TAG, "[onTouchOffset] can not continue swipe down!");
@@ -125,13 +125,13 @@ public class SwipeDetectorView extends View {
 
             @Override
             public void onPostTouch(int direction) {
-                if (ViewCompat.getTranslationY(mLoadingView) > getTotalHeight()) {
+                if (ViewHelper.getTranslationY(mLoadingView) > getTotalHeight()) {
                     // below the bottom end
                     LogUtil.i(TAG, "[onPostTouch] below the bottom end");
                     resetLoadingViewPosition(SwipeConstants.POSITION_BOTTOM);
                     if (mOnSwipeListener != null)
                         mOnSwipeListener.onSwipeCancel(mDirection);
-                } else if (ViewCompat.getTranslationY(mLoadingView) < -getTotalHeight()) {
+                } else if (ViewHelper.getTranslationY(mLoadingView) < -getTotalHeight()) {
                     // above the top end
                     LogUtil.i(TAG, "[onPostTouch] above the top end");
                     resetLoadingViewPosition(SwipeConstants.POSITION_ABOVE);
@@ -177,7 +177,7 @@ public class SwipeDetectorView extends View {
             return;
         }
         LogUtil.d(TAG, "[translateLoadingView] translate mLoadingView, translate= " + translate);
-        ViewCompat.setTranslationY(mLoadingView, translate);
+        ViewHelper.setTranslationY(mLoadingView, translate);
     }
 
     private void setInterceptTouchEvent(boolean isInterceptTouchEvent) {
@@ -230,7 +230,7 @@ public class SwipeDetectorView extends View {
             targetTranslateY = -getTotalHeight();
         }
         // Execute animation job.
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mLoadingView, "translationY", ViewCompat.getTranslationY(mLoadingView), targetTranslateY);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mLoadingView, "translationY", ViewHelper.getTranslationY(mLoadingView), targetTranslateY);
         objectAnimator.setDuration(mDuration);
         objectAnimator.setInterpolator(new LinearInterpolator());
         objectAnimator.addListener(new SwipeAnimatorListener() {
@@ -272,7 +272,7 @@ public class SwipeDetectorView extends View {
             return;
         }
         // Execute animation job.
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mLoadingView, "translationY", ViewCompat.getTranslationY(mLoadingView), 0f);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mLoadingView, "translationY", ViewHelper.getTranslationY(mLoadingView), 0f);
         objectAnimator.setInterpolator(new LinearInterpolator());
         objectAnimator.setDuration(mDuration);
         objectAnimator.addListener(new SwipeAnimatorListener() {
@@ -294,13 +294,13 @@ public class SwipeDetectorView extends View {
         }
         switch (mode) {
             case SwipeConstants.POSITION_ABOVE:
-                ViewCompat.setTranslationY(mLoadingView, -getTotalHeight());
+                ViewHelper.setTranslationY(mLoadingView, -getTotalHeight());
                 break;
             case SwipeConstants.POSITION_CENTER:
-                ViewCompat.setTranslationY(mLoadingView, 0f);
+                ViewHelper.setTranslationY(mLoadingView, 0f);
                 break;
             case SwipeConstants.POSITION_BOTTOM:
-                ViewCompat.setTranslationY(mLoadingView, getTotalHeight());
+                ViewHelper.setTranslationY(mLoadingView, getTotalHeight());
                 break;
         }
     }

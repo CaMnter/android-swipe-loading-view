@@ -48,12 +48,12 @@ public class EndlessSwipeActivity extends AppCompatActivity {
 			}
 
 		});
-		loadingView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				swipeDetectorLayout.hideLoadingView(true, swipeDetectorLayout.getDirection(), null);
-			}
-		});
+//		loadingView.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				swipeDetectorLayout.hideLoadingView(true, swipeDetectorLayout.getDirection(), null);
+//			}
+//		});
 
 		// swipeDetectorLayout.setAnimationDuration(10000);
 
